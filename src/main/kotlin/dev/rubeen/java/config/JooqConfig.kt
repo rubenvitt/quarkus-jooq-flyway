@@ -1,5 +1,7 @@
 package dev.rubeen.java.config
 
+import dev.rubeen.webapps.jooq.tables.Users
+import dev.rubeen.webapps.jooq.tables.records.UsersRecord
 import io.quarkiverse.jooq.runtime.JooqCustomContext
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.inject.Produces
@@ -31,12 +33,12 @@ class JooqConfig {
 class MyRecordListener : RecordListener {
     private val logger: Logger = LoggerFactory.getLogger(MyRecordListener::class.java)
     override fun insertStart(ctx: RecordContext) {
-//        if (ctx.recordType() == Users.USERS.recordType()) {
-//            val record = ctx.record() as UsersRecord
-//            generateId().let {
-//                logger.warn("Set id of new user to {}", it)
-//                record.id = it
-//            }
-//        }
+        if (ctx.recordType() == Users.USERS.recordType()) {
+            val record = ctx.record() as UsersRecord
+            generateId().let {
+                logger.warn("Set id of new user to {}", it)
+                record.id = it
+            }
+        }
     }
 }
